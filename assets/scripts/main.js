@@ -11,43 +11,66 @@ const operator = {
 let aux = []
 let flag = 0
 
+let auxEqual = []
+let enterFlag = 0
+
 const form = document.querySelector('#calculator')
 const input = document.querySelector('.calculator-container-input')
 
 const clearFunction = (eventValue) => {
     aux = []
+    auxEqual = []
     flag = 0
+    enterFlag = 0
     input.setAttribute('placeholder', '🚀')
     input.value = ''
 }
 
 const operatorFunction = (eventValue) => {
-    if (flag === 0) {
+    if (enterFlag === 1) {
+        console.log('entrou')
+        let func = operator[eventValue]
+        aux[1] = (eventValue)
+        console.log(aux)
+        enterFlag = 0
+    } else if (flag === 0) {
         aux.push(input.value.replaceAll(" ", ""), eventValue)
         input.value = ''
         input.setAttribute('placeholder', aux[0])
         input.classList.remove('placeholder-black')
         flag = 1
-        console.log(aux)
+        console.log('Aqui: ' + aux)
     } else {
         aux.push(input.value.replaceAll(" ", ""))
         const result = operator[aux[1]](aux[0], aux[2])
         aux = [result, eventValue]
         input.value = ''
         input.setAttribute('placeholder', result)
+        input.classList.add('placeholder-black')
     }
 }
 
 const equalFunction = (eventValue) => {
     try {
-        flag = 0
-        aux.push(input.value.replaceAll(" ", ""), eventValue)
-        let func = operator[aux[1]]
-        const result = func(aux[0], aux[2])
-        aux = []
-        input.value = ''
-        input.setAttribute('placeholder', result)
-        input.classList.add('placeholder-black')
+        if (enterFlag === 0) {
+            enterFlag = 1
+            flag = 0
+            aux.push(input.value.replaceAll(" ", ""))
+            let func = operator[aux[1]]
+            const result = func(aux[0], aux[2])
+            auxEqual = aux[2]
+            input.value = ''
+            input.setAttribute('placeholder', result)
+            input.classList.add('placeholder-black')
+            aux = [result, aux[1]]
+        } else if (enterFlag = 1) {
+            let func = operator[aux[1]]
+            aux.push(auxEqual)
+            const result = func(aux[0], aux[2])
+            aux = [result, aux[1]]
+            input.setAttribute('placeholder', result)
+            console.log(result)
+        }
     } catch (error) {
         console.log('Nenhuma operação realizada')
     }
@@ -84,44 +107,3 @@ window.onload = () => {
     })
 
 }
-
-// const eventValue = event.submitter.value
-// if (eventValue === 'clear') {
-//     aux = []
-//     flag = 0
-//     input.setAttribute('placeholder', '🚀')
-//     return input.value = ''
-// }
-// if (eventValue in operator) {
-//     if (flag === 0) {
-//         aux.push(input.value, eventValue)
-//         input.value = ''
-//         input.setAttribute('placeholder', aux[0])
-//         input.classList.remove('placeholder-black')
-//         flag = 1
-//         return
-//     } else {
-//         aux.push(input.value)
-//         const result = operator[eventValue](aux[0], aux[2])
-//         aux = [result, eventValue]
-//         input.value = ''
-//         input.setAttribute('placeholder', result)
-//         return
-//     }
-// }
-// if (eventValue === '=') {
-//     try {
-//         flag = 0
-//         aux.push(input.value, eventValue)
-//         let func = operator[aux[1]]
-//         const result = func(aux[0], aux[2])
-//         aux = []
-//         input.value = ''
-//         input.setAttribute('placeholder', result)
-//         input.classList.add('placeholder-black')
-//         return
-//     } catch (error) {
-//         return console.log('Nenhuma operação realizada')
-//     }
-// }
-// input.value += eventValue

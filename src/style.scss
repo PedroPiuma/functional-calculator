@@ -1,7 +1,8 @@
 * {
   border: 0;
   box-sizing: border-box;
-  font-family: "Rubik Wet Paint";
+  font-family: "Bebas Neue", cursive;
+  letter-spacing: 0.5px;
 }
 
 html,
@@ -106,7 +107,7 @@ input[type="number"] {
 }
 
 .placeholder-black::placeholder {
-  color: #2600ff;
+  color: #0008ff;
 }
 
 #footer {
